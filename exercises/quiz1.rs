@@ -13,11 +13,19 @@
 //
 // No hints this time ;)
 
-// I AM NOT DONE
+
 
 // Put your function here!
 // fn calculate_price_of_apples {
-
+pub fn calculate_price_of_apples(quantity: u32) -> u32 {
+    let price_per_apple = 2;
+    
+    if quantity <= 40 {
+        quantity * price_per_apple
+    } else {
+        quantity
+    }
+}
 // Don't modify this function!
 #[test]
 fn verify_test() {
