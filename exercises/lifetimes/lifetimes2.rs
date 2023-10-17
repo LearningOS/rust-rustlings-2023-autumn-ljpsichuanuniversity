@@ -6,13 +6,17 @@
 // Execute `rustlings hint lifetimes2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
-fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+
+use std::borrow::Cow;
+
+fn longest<'a, 'b>(x: &'a str, y: &'b str) -> Cow<'a, str>
+    where 'b: 'a
+{
     if x.len() > y.len() {
-        x
+        Cow::Borrowed(x)
     } else {
-        y
+        Cow::Borrowed(y)
     }
 }
 
@@ -21,7 +25,8 @@ fn main() {
     let result;
     {
         let string2 = String::from("xyz");
-        result = longest(string1.as_str(), string2.as_str());
+        result = longest(string1.as_str(), string2.as_str()).to_string();
+        println!("The longest string is '{}'", result);
     }
     println!("The longest string is '{}'", result);
 }

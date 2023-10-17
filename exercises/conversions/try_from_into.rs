@@ -27,7 +27,7 @@ enum IntoColorError {
     IntConversion,
 }
 
-// I AM NOT DONE
+
 
 // Your task is to complete this implementation and return an Ok result of inner
 // type Color. You need to create an implementation for a tuple of three
@@ -41,6 +41,10 @@ enum IntoColorError {
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = IntoColorError;
     fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+        match tuple {
+            (r,g,b) if r & 0xff == r && g & 0xff == g && b & 0xff == b => Ok(Color { red: r as u8, green: g as u8, blue: b as u8}),
+            _ => Err(IntoColorError::IntConversion)
+        }
     }
 }
 
@@ -48,6 +52,10 @@ impl TryFrom<(i16, i16, i16)> for Color {
 impl TryFrom<[i16; 3]> for Color {
     type Error = IntoColorError;
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+        match arr {
+            [r,g,b] if r & 0xff == r && g & 0xff == g && b & 0xff == b => Ok(Color { red: r as u8, green: g as u8, blue: b as u8}),
+            _ => Err(IntoColorError::IntConversion)
+        }
     }
 }
 
@@ -55,6 +63,11 @@ impl TryFrom<[i16; 3]> for Color {
 impl TryFrom<&[i16]> for Color {
     type Error = IntoColorError;
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        match slice {
+            s if s.len() != 3 => Err(IntoColorError::BadLen),
+            [r,g,b] if *r & 0xff == *r && *g & 0xff == *g && *b & 0xff == *b => Ok(Color { red: *r as u8, green: *g as u8, blue: *b as u8}),
+            _ => Err(IntoColorError::IntConversion)
+        }
     }
 }
 
